@@ -1,0 +1,27 @@
+{% extends 'classroom/base.html' %}
+
+{% block title %}
+mandulgi
+{% endblock title %}
+
+
+{% block body %}
+<h1>makin value</h1>
+<form action="{% url 'classroom:create' %}">
+    <div>
+        <label for="name">이름: </label>
+        <input name="name" id="name">
+    </div>
+    <div>
+        <label for="age">나이: </label>
+        <input name="age" id="age">
+    </div>
+    <div>
+        <label for="major">전공: </label>
+        <textarea name="major" id="major"  cols="30" rows="1"></textarea>
+    </div>
+    <div>
+        <input type="submit" value='제출'>
+    </div>
+</form>
+{% endblock body %}

@@ -18,7 +18,16 @@
 <div>
     <form action="{% url 'board:delete' article.id %}" method = "POST">
         {% csrf_token %}
-        <input type="submit" value="삭제" onclick="return confirm('ㄹㅇ?')">
+        <input type="delButton" value="삭제">
     </form>
 </div>
+<script>
+    const delButton = document.querySelector('#delButton');
+    function popUp () {
+        return confirm('real?');
+    }
+    delButton.addEventListener('click', popUp);
+
+</script>
+
 {% endblock body %}

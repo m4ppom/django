@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.decorators.http import require_GET, require_POST
 from .models import Article
-
+from .forms import ArticleModelForm
 
 @require_GET
 def index(request):
@@ -25,35 +25,36 @@ def detail(request, id):
     })
 
 
-@require_GET
 def new(request):
-    return render(request, 'board/new.html')
+    if request.method == 'POST':
+        form = ArticleModelForm(request.POST)
 
+        if form.is_valid():
+            article = Zform.save()
+            return redirect(article)
+        
+    else:
+        form = ArticleModelForm()
 
-@require_POST
-def create(request):
-    article = Article()
-    article.title = request.POST.get('title')
-    article.content = request.POST.get('content')
-    article.save()
-    return redirect('board:detail', article.id)
-
-
-@require_GET
-def edit(request, id):
-    article = Article.objects.get(id=id)
-    return render(request, 'board/edit.html', {
-        'article': article,
+    return render(request, 'board/new.html', {
+        'form': form,
     })
 
 
-@require_POST
-def update(request, id):
-    article = Article.objects.get(id=id)
-    article.title = request.POST.get('title')
-    article.content = request.POST.get('content')
-    article.save()
-    return redirect('board:detail', article.id)
+def edit(request, id):
+    article = get_object_or_404(Article, id=id)
+    if request.method == 'POST':
+        article = Article.objects.get(id=id)
+        article.title = request.POST.get('title')
+        article.content = request.POST.get('content')
+        article.save()
+        return redirect(article)
+        article = Article.objects.get(id=id)
+    else:
+        article = Article.objects.get(id=id)
+        return render(request, 'board/edit.html', {
+            'article': article,
+        })
 
 
 @require_POST

@@ -1,0 +1,27 @@
+{% extends 'classroom/base.html' %}
+
+{% block title %}
+Edit
+{% endblock title %}
+
+
+{% block body %}
+<h1>edit value</h1>
+<form action="{% url 'classroom:update' student.id %}">
+    <div>
+        <label for="name">이름: </label>
+        <input name="name" id="name" value={{student.name}}>
+    </div>
+    <div>
+        <label for="age">나이: </label>
+        <input name="age" id="age" value={{student.age}}>
+    </div>
+    <div>
+        <label for="major">전공: </label>
+        <input name="major" id="major" value={{student.major}}>
+    </div>
+    <div>
+        <input type="submit" value='제출'>
+    </div>
+</form>
+{% endblock body %}
