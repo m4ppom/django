@@ -6,11 +6,6 @@ New article
 
 {% block body %}
 <h1>New article</h1>
-<form method="POST">
-{% csrf_token %}
-{{ form }}
-<input type="submit">
-</form>
-{% comment %} {% include 'board/_form.html' %} {% endcomment %}
+{% include 'board/_form.html'%}
 {% endblock body %}
 
