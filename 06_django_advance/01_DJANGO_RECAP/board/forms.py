@@ -18,5 +18,5 @@ class CommentModelForm(forms.ModelForm):
     content = forms.CharField(min_length=2, max_length=200)  # 200을 검증해줌
     class Meta:
         model = Comment
-        fields = '__all__'
+        fields = ('content',)
 

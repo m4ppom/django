@@ -23,20 +23,6 @@
 </div>
 
 <hr>
-
-<form action="{% url 'board:new_comment' article.id %}" method="POST">
-    {% csrf_token %}
-    <input type="text" name="comment_content">
-    <input type="submit">
-</form>
-
-
-{% if comments %}
-    <ul>
-        {% for comment in comments %}
-            <li>{{comment.comment}}</li>
-        {% endfor %}
-    </ul>
-{% endif %}
+{% include 'board/_comment.html' %}
 
 {% endblock body %}

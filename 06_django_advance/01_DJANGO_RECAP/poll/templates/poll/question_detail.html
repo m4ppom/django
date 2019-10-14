@@ -1,0 +1,19 @@
+{% extends 'poll/base.html' %}
+
+{% block title %}회식메뉴 추천{% endblock title %}
+
+{% block body %}
+<h1>{{ question.title }}</h1>
+    <hr>
+    <form action="{% url 'poll:upvote' question.id %}" method="POST">
+        {% csrf_token %}
+        {{ choice_form.as_p }}
+        <input type="submit">
+    </form>
+
+    <ul>
+        {% for choice in choices %}
+            <li>{{ choice.content }}: {{ choice.votes }}</li>
+        {% endfor %}
+    </ul>
+{% endblock body %}

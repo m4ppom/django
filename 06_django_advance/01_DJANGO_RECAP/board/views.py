@@ -48,11 +48,13 @@ def article_list(request):
 @require_GET
 def article_detail(request, article_id):
     article = get_object_or_404(Article, id=article_id)
-    comments = article.comment_set.all()
+    comments = article.comment_set.all().order_by('-id')
+    comment_form = CommentModelForm()
 
     return render(request, 'board/detail.html', {
         'article': article,
         'comments': comments,
+        'comment_form': comment_form,
     })
     
 
@@ -81,12 +83,34 @@ def delete_article(request, article_id):
 @require_POST
 def new_comment(request, article_id):
     article = get_object_or_404(Article, id=article_id)
-    comment = Comment()
-    comments = article.comment_set.all().order_by('-id')
-    comment.content = request.POST.get('comment_content')
-    comment.article_id = article.id
-    comment.save()
+    form = CommentModelForm(request.POST)
+    # embed()
+    if form.is_valid():
+        comment = form.save(commit=False)
+        comment.article_id = article.id
+        comment.save()
     return redirect(article)
+    # comment = Comment()
+    # comments = article.comment_set.all().order_by('-id')
+    # comment.content = request.POST.get('comment_content')
+    # comment.article_id = article.id
+    # comment.save()
+    # return redirect(article)
+
+
+@require_POST
+def delete_comment(request, article_id, comment_id):
+    article = get_object_or_404(Article, id=article_id)
+    comment = get_object_or_404(Comment, id=comment_id, article_id=article_id)
+    if comment in article.comment_set.all()
+        comment.delete()
+        
+    
+    # comment = get_object_or_404(Comment, id=comment_id)
+    # comment.delete()
+
+    return redirect('article detail')
+
 
 # @require_GET
 # def index(request):

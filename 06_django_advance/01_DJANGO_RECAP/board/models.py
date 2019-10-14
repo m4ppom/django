@@ -15,4 +15,4 @@ class Article(models.Model):
 
 class Comment(models.Model):
     content = models.CharField(max_length=200)
-    article = models.ForeignKey(Article, on_delete=models.CASCADE)
+    article = models.ForeignKey(Article, on_delete=models.CASCADE)  # 1:n에서 n에 해당하는애한테 ondelete반드시 줘야함
