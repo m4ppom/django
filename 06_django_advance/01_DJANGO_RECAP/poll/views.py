@@ -25,5 +25,5 @@ def upvote(request, question_id):
         new_choice = choice_form.save(commit=False)
         new_choice.votes += 1
         new_choice.save()
-
     return redirect(question)
+
