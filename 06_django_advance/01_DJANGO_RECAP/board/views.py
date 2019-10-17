@@ -1,40 +1,26 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.decorators.http import require_GET, require_POST, require_http_methods
-from .models import Article
-from .forms import ArticleModelForm, CommentModelForm
+
+from .models import Article, Comment
+from .forms import ArticleModelForm, CommentModelForm, ArticleForm
+
 from IPython import embed
 
 
 # CRUD
-@require_http_methods(['GET', 'POST'])  # GET, POST요청 받겠다., 다양한 method있어서 저거 써주는게 좋음
-def new_article(request):  # 어떤 방식으로 요청이 들어오는지
-    # 요청이 GET POST인지 확인
-    # 만약 POST라면 
+@require_http_methods(['GET', 'POST'])
+def new_article(request):
     if request.method == 'POST':
-        # ArticleModelForm 의 인스턴스를 생성하고 Data를 채운다.
         form = ArticleModelForm(request.POST)
-        # =->binding된 form이 유효한지 확인한다.
-        # embed()  # =-> 서버가 멈춤
         if form.is_valid():
-            # 유효하면 저장
             article = form.save()
-            # 저장한 article로 redirect
-            return redirect(article)  # models에 absolute 선언해줘서 article만 써도 가능한거 
-        # form 유효하지 않으면
-        else:
-            # 유효하지 않은 입력데이터를 담은 HTML과 에러메시지를 사용자한테 보여준다.
-            return render(request, 'board/new.html', {
-                'form': form,
-            })
-
-    # 만약 GET이라면
-    elif request.method == 'GET':
-        # 비어있는 form을 만든다
+            return redirect(article)  # redirect('board:article_detail', article.id)
+    else:
         form = ArticleModelForm()
-        # form과 html을 사용자에게 보여준다.
-        return render(request, 'board/new.html', {
-            'form': form,
-        })   
+    
+    return render(request, 'board/new.html', {
+        'form': form,
+    })
 
 
 @require_GET
@@ -48,7 +34,7 @@ def article_list(request):
 @require_GET
 def article_detail(request, article_id):
     article = get_object_or_404(Article, id=article_id)
-    comments = article.comment_set.all().order_by('-id')
+    comments = article.comment_set.all().order_by('-id')  # Comment.objects.filter(article_id=article.id)
     comment_form = CommentModelForm()
 
     return render(request, 'board/detail.html', {
@@ -56,13 +42,14 @@ def article_detail(request, article_id):
         'comments': comments,
         'comment_form': comment_form,
     })
-    
+
 
 @require_http_methods(['GET', 'POST'])
 def edit_article(request, article_id):
     article = get_object_or_404(Article, id=article_id)
+
     if request.method == 'POST':
-        form = ArticleModelForm(request.POST, instance=article)  # 제출받은 요청 바디깆
+        form = ArticleModelForm(request.POST, instance=article)
         if form.is_valid():
             article = form.save()
             return redirect(article)
@@ -71,7 +58,7 @@ def edit_article(request, article_id):
     return render(request, 'board/edit.html', {
         'form': form,
     })
-
+        
 
 @require_POST
 def delete_article(request, article_id):
@@ -81,93 +68,74 @@ def delete_article(request, article_id):
 
 
 @require_POST
-def new_comment(request, article_id):
+def new_comment(request, article_id):  # /board/articles/N/comments/new/ 
     article = get_object_or_404(Article, id=article_id)
     form = CommentModelForm(request.POST)
     # embed()
     if form.is_valid():
+        # comment = Comment()
+        # comment.content = request.POST.get('content')
         comment = form.save(commit=False)
         comment.article_id = article.id
         comment.save()
     return redirect(article)
-    # comment = Comment()
-    # comments = article.comment_set.all().order_by('-id')
-    # comment.content = request.POST.get('comment_content')
-    # comment.article_id = article.id
-    # comment.save()
-    # return redirect(article)
 
 
 @require_POST
 def delete_comment(request, article_id, comment_id):
-    article = get_object_or_404(Article, id=article_id)
+    from time import time
     comment = get_object_or_404(Comment, id=comment_id, article_id=article_id)
-    if comment in article.comment_set.all()
-        comment.delete()
-        
-    
-    # comment = get_object_or_404(Comment, id=comment_id)
-    # comment.delete()
+    comment.delete()
+    return redirect(comment.article)
 
-    return redirect('article detail')
-
-
-# @require_GET
-# def index(request):
-#     return render(request, 'board/index.html')
-
-
-# @require_GET
-# def list(request):
-#     articles = Article.objects.all()  # 다 가져다줘여
-#     # [<article1>, <article2>,....] 리스트로 리턴
-#     return render(request, 'board/list.html', {
-#         'articles': articles,
-#     })
-
-
-# @require_GET
-# def detail(request, id):
-#     article = get_object_or_404(Article, id=id)  # a id 해당 객체 리턴
-#     return render(request, 'board/detail.html', {
-#         'article': article,
-#     })
-
-
-# def new(request):
-#     if request.method == 'POST':
-#         form = ArticleModelForm(request.POST)
-
-#         if form.is_valid():
-#             article = Zform.save()
-#             return redirect(article)
-        
-#     else:
-#         form = ArticleModelForm()
-
-#     return render(request, 'board/new.html', {
-#         'form': form,
-#     })
+"""
+@require_http_methods(['GET', 'POST'])
+def new(request):
+    # 요청이 GET/POST 인지 확인한다.
+    # 만약 POST 라면
+    if request.method == 'POST':
+        # ArticleModelForm 의 인스턴스를 생성하고 Data 를 채운다(binding).
+        form = ArticleModelForm(request.POST)
+        # binding 된 form 이 유효한지 체크한다.
+        if form.is_valid():
+            # 유효하다면 form 을 저장한다.
+            article = form.save()
+            # 저장한 article detail 로 redirect 한다.
+            return redirect(article)
+        # form 이 유효하지 않다면,
+        else:
+            # 유효하지 않은 입력데이터를 담은 HTML과 에러메세지를 사용자한테 보여준다.
+            return render(request, 'board/new.html', {
+                'form': form,
+            })
+    # GET 이라면
+    else:
+        # 비어있는 form(HTML 생성기) 을 만든다.
+        form = ArticleModelForm()
+        # form 과 html 을 사용자에게 보여준다.
+        return render(request, 'board/new.html', {
+            'form': form,
+        })
 
 
-# def edit(request, id):
-#     article = get_object_or_404(Article, id=id)
-#     if request.method == 'POST':
-#         article = Article.objects.get(id=id)
-#         article.title = request.POST.get('title')
-#         article.content = request.POST.get('content')
-#         article.save()
-#         return redirect(article)
-#         article = Article.objects.get(id=id)
-#     else:
-#         article = Article.objects.get(id=id)
-#         return render(request, 'board/edit.html', {
-#             'article': article,
-#         })
+Create Article with Form
+def new_article_with_form(request):
+    if request.method == 'POST':
+        form = ArticleForm(request.POST)
+        embed()
+        if form.is_valid():
+            article = Article()
+            # article.title = request.POST.get('title')  # 검증되지 않은 데이터
+            article.title = form.cleaned_data.get('title')  # 검증된 데이터
+            article.content = form.cleaned_data.get('content')
+            article.save()
+            return redirect(article)
+    else:
+        form = ArticleForm()
+    return render(request, 'board/new.html', {
+        'form': form,
+    })
+"""
 
 
-# @require_POST
-# def delete(request, id):
-#     article = Article.objects.get(id=id)
-#     article.delete()
-#     return redirect('board:list')
+

@@ -1,28 +1,26 @@
-{% extends 'board/base.html' %}
-
-{% block title %}Article detail{% endblock title %}
+{% extends 'base.html' %}
+{% block title %}Article detail{% endblock %}
 
 {% block body %}
-<h1>{{article.title}}</h1>
-<p>
-    {{article.content}}
-</p>
-<div>
-
-    <a href="{% url 'board:edit_article' article.id %}">
-        <button>
-        수정
-        </button>
-    </a>
-</div>
-<div>
-    <form action="{% url 'board:delete_article' article.id %}" method = "POST">
-        {% csrf_token %}
-        <input type = 'submit' value="삭제">
-    </form>
-</div>
-
-<hr>
-{% include 'board/_comment.html' %}
-
-{% endblock body %}
+    <h1>{{ article.title }}</h1>
+    <div>
+        <small>created: {{ article.created_at }} | </small>
+        <small>updated: {{ article.updated_at }}</small>
+    </div>
+    <p>
+        {{ article.content }}
+    </p>
+    <div>
+        <a href="{% url 'board:edit_article' article.id %}">
+            <button>수정</button>    
+        </a>
+    </div>
+    <div>
+        <form action="{% url 'board:delete_article' article.id %}" method="POST">
+            {% csrf_token %}
+            <input type="submit" value="삭제">
+        </form>
+    </div>
+    <hr>
+    {% include 'board/_comment.html' %}
+{% endblock %}

@@ -1,12 +1,12 @@
 {% extends 'home/base.html' %}
 
-{% block title%} 
-GReeTing Page
+{% block title %}
+    Guess me
 {% endblock %}
 
 {% block body %}
-    <h1>질문지?</h1>
-    <form action="{% url 'home:answer' %}" method = "POST">
+    <h1>질문지</h1>
+    <form action="{% url 'home:answer' %}" method="POST">
         {% csrf_token %}
         <div>
             <label for="q1">내 생일은?</label>
@@ -16,10 +16,10 @@ GReeTing Page
             <label for="q2">내 머리 길이는?</label>
             <input id="q2" name="q2" type="text">
         </div>
-        <div>  
-            <label for="q3">내 키는?</label>
+        <div>
+            <label for="q3">내 무릎 상태는?</label>
             <input id="q3" name="q3" type="text">
-        </div>  
+        </div>
         <input type="submit">
     </form>
 {% endblock %}

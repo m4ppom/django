@@ -24,13 +24,14 @@ class Posting(models.Model):
 
 
 class Comment(models.Model):
+    # related_name 이 없으면, posting.comment_set / 아래아 같다면, posting.comments
     posting = models.ForeignKey(Posting, on_delete=models.CASCADE, related_name='comments')
-    content = models.CharField(max_length=1000)
+    content = models.CharField(max_length=200)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    # 댓글 순서
+    
     class Meta:
         ordering = ['created_at']
-
+    
     def __str__(self):
         return f'{self.id}: {self.content[:10]}'

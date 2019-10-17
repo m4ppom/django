@@ -11,3 +11,4 @@ class ChoiceModelForm(forms.ModelForm):
     class Meta:
         model = Choice
         fields = ('content',)  
+
