@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block body %}
+<h1>{{ article.title }}</h1>
+<p>{{ article.content }}</p>
+
+<!-- 좋아요부분 -->
+<a href="{% url 'articles:like' article.id %}">
+    {% if request.user in article.like_users.all %}
+        좋아요 취소
+    {% else %}
+        좋아요
+    {% endif %}
+
+</a>
+{% endblock %}
