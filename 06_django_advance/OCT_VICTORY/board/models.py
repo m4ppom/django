@@ -17,7 +17,6 @@ class Comment(models.Model):
     updated_at =models.DateTimeField(auto_now=True)
 
 '''
-hs69.yang@multicampus.com
 디비는 다루고싶으데 에스큐엘 쓰기싫음
 디비를다룬다
     테이블을 만들고 ㅅㅍ다
