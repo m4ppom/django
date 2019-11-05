@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id="my">
+
+    </div>
+    <button id="js-button">Click Me</button>
+    <button>Me too</button>
+    <button>Hi</button>
+    <script>
+        // Event Listener
+        /*
+            무엇 을   언제   어떻게     한다.
+            버튼      클릭   화면에나타 낸다.
+        */
+        const button = document.querySelector('#js-button');  // #은 id말하는거
+
+        // 오또케
+        function yapp() {
+            const area = document.querySelector('#my');
+            area.innerHTML = '<h1>얍 !</h1>';
+        }
+
+        // 무엇 button   언제 addeventlistener    click   어떻게 yapp
+        button.addEventListener('click', yapp)
+    </script>
+</body>
+</html>

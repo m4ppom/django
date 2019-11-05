@@ -1,0 +1,121 @@
+<!-- 01_vueToDo.html -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Todo</title>
+  <style>
+    .completed {
+      text-decoration: line-through;
+      opacity: 0.6;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="app">
+    <select v-model="showMode">
+      <option value="all">모두보기</option>
+      <option value="active">할 일 보기</option>
+      <option value="done">끝난 일 보기</option>
+    </select>
+    <!-- 'v-model' 사용자 입력(input) 값 <=> [data] 랑 동기화 -->
+    <input type="text"
+      v-model="newTodo"
+      v-on:keyup.enter="addTodo"
+    >
+    <button v-on:click="addTodo">+</button>
+    <button v-on:click="clearCompleted">Clear Completed</button>
+    <!-- 'v-' 접두사가 붙으면, 디렉티브(directive)라고 부른다. -->
+    <ul>
+      <!-- 'v-for' 가 있는 Element 가 반복-->
+      <!-- 'v-for' 는 반드시 'v-bind:key="UNIQUE_KEY"' 가 있어야 함! -->
+      <!-- 'v-if' 는 평가식이 true 일 때만 보임. -->
+      <!-- 우선순위 'v-for' > 'v-if' -->
+      <!-- 우선순위 'v-for' > 'v-on' -->
+      <li 
+        v-for="todo in sortedTodos" 
+        v-bind:key="todo.id" 
+        v-if="!todo.completed" 
+        v-on:click="check(todo)"
+      >
+        <input type="checkbox" v-model="todo.completed">
+        <span>{{ todo.content }}</span>
+      </li>
+      <!-- 'v-else' 와 'v-if' 는 딱 붙어있어야 함! -->
+      <li v-else
+          v-bind:key="todo.id"
+          v-on:click="check(todo)" 
+          class="completed"
+      >
+          <input type="checkbox" v-model="todo.completed">
+          <span>{{ todo.content }}</span>
+      </li>
+    </ul>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script>
+      const STORAGE_KEY = 'vue-todos';
+      const todoStorage = {
+          load() {
+            return JSON.parsa(localStorage.getItem(STORAGE_KEY));
+          },
+          save() {
+              localStorage.setItem(STORAGE_KEY, JSON.stringify(todosArray));
+
+          },
+      }
+    const app = new Vue({
+      el: '#app',
+      data: {  // data 가 수정된다 === DOM re-render 가 일어난다.
+        newTodo: '',
+        todos: [],
+        showMode: 'all',
+        visible: true,
+      },
+      methods: {  // data 가 수정되는 로직.(setter함수)
+        check: function(todo) {
+          todo.completed = !todo.completed;
+        },
+        addTodo: function() {
+          this.todos.push({
+            id: Date.now(),
+            content: this.newTodo,
+            completed: false,
+          })
+          this.newTodo = '';
+        },
+        clearCompleted: function () {
+          const newTodos = []
+          for (const todo of this.todos) {
+            if (!todo.completed) {
+              newTodos.push(todo);
+            }
+          }
+          this.todos = newTodos
+          // this.todos = this.todos.filter(todo => !todo.completed);
+        },
+      },
+      computed: {  // data 를 가공해서 리턴함. 수정X (getter함수)
+        sortedTodos () {  // 함수 이름이 리턴 되는 값
+          if (this.showMode === 'active') { // 남은일들만 보여주기
+            return this.todos.filter(todo => !todo.completed);
+          }
+          else if (this.showMode === 'done') { // 끝난 일들만 보여주기
+            return this.todos.filter(todo => todo.completed);
+          }
+          else {  // 'all'
+            return this.todos;
+          }
+        },
+        watch: {
+            todos: {
+                
+            }
+      },
+    });
+  </script>
+</body>
+
+</html>

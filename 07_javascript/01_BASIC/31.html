@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Hello World!</title>
+    <style>
+    /* 보여지는 영역 */
+    </style>
+</head>
+<body>
+    <h1>Hello World!</h1>
+    <button onclick="changeH1Text();">change</button>
+    <script>
+    // 1. h1 태그를 선택한 뒤  header 라는 상수에 할당한ㄷㅏ.
+    
+    
+    function changeH1Text(){
+        const header = document.querySelector('h1'); // h1 태그 자체를 잡게됨.
+        console.log(header.innerText);
+        const inputText = prompt('머라두 써바용');  // 입력창 띄우는 함수 prompt
+        header.innerText = inputText;
+    }
+    // 
+    // 
+    </script>
+
+</body>
+</html>

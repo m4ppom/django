@@ -1,0 +1,57 @@
+<!-- 02_catsAndDogs.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>cats & dogs</title>
+</head>
+<body>
+    <div id="app">
+        <button v-on:click="getCatImage">냐옹</button>
+        <button v-on:click="getDogImage">멍멍</button>
+        <span>냐옹: {{ catCount }}</span>
+        <span>멍멍: {{ dogCount }}</span>
+        <div>
+            <img 
+                v-for="imageUrl in imageUrls"
+                v-bind:src="imageUrl"
+                alt="animal-image" 
+                height="50px"
+            >
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script>
+        const app = new Vue({
+            el: '#app',
+            data: {
+                // 맨 처음 app 이 Load 되었을 때의 data
+                catCount: 0,
+                dogCount: 0,
+                imageUrls: [],
+            },
+            // methods === data 바꾸려고 쓰는 함수.
+            methods: {  // methods 에서 key: [VALUE: 절대 ()=>{} 쓰면 안됨!];
+                getCatImage: function () {
+                    const URL = 'https://api.thecatapi.com/v1/images/search';
+                    axios.get(URL)
+                        .then(res => {
+                            this.imageUrls.push(res.data[0].url);
+                            this.catCount++;
+                        })
+                },
+                getDogImage: function () {
+                    const URL = 'https://dog.ceo/api/breeds/image/random';
+                    // axios 는 응답이 이미 파싱되어 있고, key data 로 접근한다
+                    axios.get(URL)  
+                        .then(res => {
+                            this.imageUrls.push(res.data.message);
+                            this.dogCount++;
+                        })
+                },
+            },
+        })
+    </script>
+</body>
+</html>

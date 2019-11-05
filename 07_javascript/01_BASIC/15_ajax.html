@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>AJAX</title>
+</head>
+<body>
+    <!-- 브라우저 내장 가장 기본형 결국 얘기 일함 -->
+    <button id="js-data-load-btn">XHR</button>
+    <!-- 내장인데 어차피 XHR로 변환될껀데 쓰기 편해서 -->
+    <button id="js-load-fetch">fetch</button>
+    <!-- 외부 라이브러리라 갖고와야함 XHR 쉽게 쓰게 해줌. -->
+    <button id="js-load-axios">axios</button>
+
+    <div id= "js-content-area"></div>
+    <script>
+        const url = 'https://koreanjson.com';
+        // HTML 전환 없이 요청을 보냄
+        // Asynchronous Javascript And XML
+        const btn = document.querySelector('#js-data-load-btn');
+        const btn2 = document.querySelector('#js-load-fetch');
+        const btn3 = document.querySelector('#js-load-axios'); 
+
+        let postId = 1;
+        btn.addEventListener('click', ()=> {
+            const AJAX = new XMLHttpRequest();
+            AJAX.open('GET', `${url}/posts/${postId++}`);
+            AJAX.send();
+            AJAX.addEventListener('load', (e)=>{
+                const area = document.querySelector('#js-content-area')
+                const data =JSON.parse(e.target.response);
+                area.innerHTML = `<p>${data.title}</p>`
+                //console.log(e.target.response);
+            });
+        })
+        btn2.addEventListener('click',()=>{
+            fetch(`${url}/post/${postId++}`)
+            .then(res=> res.json())
+            .then(data => {
+                const area = document.querySelector('#js-content-area');
+                area.innerHTML += `<p>${data.title}</p>`;
+            })
+            .catch(err => console.error(`${err}`));
+        })
+        
+    </script>
+</body>
+</html>

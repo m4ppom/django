@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Vue Start</title>
+</head>
+<body>
+    <div id="app">
+        <!-- {{ 바로 data의 키로 접근해 랜더링 가능 }} -->
+        <h1>{{ message }}</h1>
+        <p>{{ count }}</p>
+        <div>
+                <button v-on:click="plus(3)">+</button>
+                <button v-on:click="minus">-</button>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        const app = new Vue({
+            // 1. el: 어떤 html element node id값 가져오면 됨
+            // 위에 쓰면 mount됨  === 연결됨
+            el: '#app',
+            // Vue instance의 시작할 때의 속성값 === object(숫자 문자 배열 ......)
+            data: {
+                message: 'hello Vue!',
+                count: 0,
+            },
+            // function declare & nomally manipulating data if data changed then re-rendering 
+            methods: {
+                // vue instance 안에서 => 절대 사용하면 안됨
+                plus: function (n) { this.count += n },
+                minus: function () { this.count-- },
+            },
+
+        });
+    </script>
+</body>
+</html>
