@@ -1,8 +1,6 @@
 import Vue from 'vue';
-import App from './App.vue';  // 확장자(.vue) 는 안써도 알아서 동작함.
+import App from './App';  // App.vue 를 알아서 확장자 버리고 읽음
 
 new Vue({
-    // [el: '#app'] === [.$mount('#app')] 둘이 같다!
-    // method(함수 in 객체) 정의할 때, () => {} 금지이지만, 여기서만 쓴다.
-    render: h => h(App),
-}).$mount('#app')
+    render: h => h(App),  // 유일하게 method 인데 Arrow Function
+}).$mount('#app')  // el: '#app' 와 같다.

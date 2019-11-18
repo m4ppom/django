@@ -56,25 +56,28 @@
   </div>
   <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
   <script>
-      const STORAGE_KEY = 'vue-todos';
-      const todoStorage = {
-          load() {
-            return JSON.parsa(localStorage.getItem(STORAGE_KEY));
-          },
-          save() {
-              localStorage.setItem(STORAGE_KEY, JSON.stringify(todosArray));
+    const STORAGE_KEY = 'vue-todos';
+    const todoStorage = {
+      load() {
+        // const storageItems = localStorage.getItem(STORAGE_KEY);
+        // return storageItems ? JSON.parse(storageItems) : []
+        // return JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+        return JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+      },
+      save(todosArray) {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(todosArray));
+      },
+    }
 
-          },
-      }
     const app = new Vue({
       el: '#app',
       data: {  // data 가 수정된다 === DOM re-render 가 일어난다.
         newTodo: '',
-        todos: [],
+        todos: todoStorage.load(),
         showMode: 'all',
-        visible: true,
       },
-      methods: {  // data 가 수정되는 로직.(setter함수)
+      methods: {  // ()붙임. data 가 수정되는 로직.(setter함수) return 등장 X
+        // method 의 목적: 실행시 data 를 변경함. 끝
         check: function(todo) {
           todo.completed = !todo.completed;
         },
@@ -97,8 +100,9 @@
           // this.todos = this.todos.filter(todo => !todo.completed);
         },
       },
-      computed: {  // data 를 가공해서 리턴함. 수정X (getter함수)
-        sortedTodos () {  // 함수 이름이 리턴 되는 값
+      computed: {  // () 절대안붙임. data 를 가공해서 리턴함. 수정X (getter함수)
+        // computed 의 목적: 실행시 data 를 가공하여(data변경X) 새로운 값을 return 함. 끝
+        sortedTodos () {  // 함수 이름이 리턴 되는 값 
           if (this.showMode === 'active') { // 남은일들만 보여주기
             return this.todos.filter(todo => !todo.completed);
           }
@@ -109,10 +113,15 @@
             return this.todos;
           }
         },
-        watch: {
-            todos: {
-                
-            }
+      },
+      watch: {  // 특정 data 를 관찰함. 해당 data 가 변하면 함수 실행함 <외부API사용>
+        // 이름(key)은 반드시 data 의 key 값과 같아야 한다.
+        todos: {
+          handler: function () {
+            todoStorage.save(this.todos);
+          },
+          deep: true,
+        }
       },
     });
   </script>

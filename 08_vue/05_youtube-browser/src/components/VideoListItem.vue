@@ -1,16 +1,17 @@
 <template>
-    <li @click="onVideoClick" class= "list-group-item">
+    <li @click="onVideoClick" class="list-group-item">
         <img :src="thumbnailUrl" class="mr-3" :alt="video.snippet.title">
         <div class="media-body">
             <span v-html="video.snippet.title"></span>
-        </div>        
-        <!-- {{video.snippet.thumbnail.default.url}} -->
+        </div>
+        
     </li>
 </template>
 
 <script>
 export default {
     name: 'VideoListItem',
+
     props: {
         video: Object,
     },
@@ -20,13 +21,11 @@ export default {
         }
     },
     computed: {
-        thumbnailUrl (){
-            // 가공해서 필터링해서보여줄때
+        thumbnailUrl () {
             return this.video.snippet.thumbnails.default.url
         }
     },
 }
-
 </script>
 
 <style scoped>
@@ -34,8 +33,8 @@ export default {
         display: flex;
         cursor: pointer;
     }
+    
     li:hover {
-        background-color: aquamarine;
+        background-color: #eee;
     }
-
 </style>
