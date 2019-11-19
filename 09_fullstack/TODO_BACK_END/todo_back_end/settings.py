@@ -57,6 +57,7 @@ JWT_AUTH = {
 		# 28일 마다 토큰이 갱신(유효 기간 연장시)
     'JWT_REFRESH_EXPIRATION_DELTA': datetime.timedelta(days=28),
 }
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -69,6 +70,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'accounts',
+    'todos',
 ]
 
 MIDDLEWARE = [
@@ -160,3 +163,4 @@ CORS_ORIGIN_ALLOW_ALL = True
 
 STATIC_URL = '/static/'
 
+AUTH_USER_MODEL = 'accounts.User'

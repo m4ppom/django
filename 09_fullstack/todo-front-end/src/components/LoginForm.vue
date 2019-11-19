@@ -6,7 +6,7 @@
 
         <form v-else class="login-input" @submit.prevent="login">
             <div v-if="errors.length" class="error-list alert alert-danger">
-                <h4>아래의 오류를 해결해 주세요</h4>
+                <p>아래의 오류를 해결해 주세요</p>
                 <ul>
                     <li v-for="(error, idx) in errors" :key="idx">
                         {{ error }}
@@ -29,12 +29,16 @@
 </template>
 
 <script>
+    import router from '../router';  // '../router/index.js'
     const axios = require('axios');
     export default {
         name: 'LoginForm',
         data() {
             return {
-                credentials: {}, // id/password 에 해당하는 data
+                credentials: {  // id,password 에 해당하는 data
+                    username: '',
+                    password: '',
+                },
                 isAuthenticated: false, // 인증 여부
                 isLoading: false,
                 errors: [],
@@ -44,13 +48,27 @@
             login() {
                 this.isLoading = true;
                 if (this.checkUserInput()) {
-                    console.log('django 서버로 데이터를 보냅니다.');
-                    axios.get('http://localhost:8000', this.credentials)
-                        .then(res => console.log(res))
-                        .catch(err => console.error(err));
+                    axios.post('http://localhost:8000/api-token-auth/', this.credentials)
+                        .then(res => {
+                            this.isLoading = false;
+                            this.$session.start();  // sessionsStorage.session-id: sess: + Date.now()
+                            this.$session.set('jwt', res.data.token);
+                            router.push('/');
+                        })
+                        .catch(err => {
+                            if (!err.response) {  // no reponse
+                                this.errors.push('Network Error..')
+                            } else if (err.response.status === 400 ) {
+                                this.errors.push('Invalid username or password');
+                            } else if (err.response.status === 500) {
+                                this.errors.push('Internal Server error. Please try again later');
+                            } else {
+                                this.errors.push('Some error occured');
+                            }
+                            this.isLoading = false;
+                        });
                 }
                 else {
-                    console.log('검증실패. 다시 작성하세요.')
                     this.isLoading = false;
                 }
 
