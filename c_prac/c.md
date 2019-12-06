@@ -10,5 +10,7 @@ c엊ㄴ어 소스코드 메인이 있어야함 사용하는 명령들 내용이 
 ```
 sql d p 
 c language
+satporo 
+update select
 ```
 
