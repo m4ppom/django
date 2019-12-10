@@ -17,3 +17,23 @@ sunday
 monday
 ```
 
+```c
+#include <stdio.h>
+main ()
+{
+  printf("ddd");
+  int a=4, b=3;
+  printf("%d * %d = %d", a, a*b);
+  printf("a memories = %d", &a)
+}
+
+```
+
+숫자 저장될 때 아스키 값으로 저장되는거 단순히 1 더하면 아스키 다음 값나옴.
+
+%p pinter address
+
+&a address of a 
+
+*&a  get from address of a
+
