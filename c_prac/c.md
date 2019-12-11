@@ -37,3 +37,4 @@ main ()
 
 *&a  get from address of a
 
+wend
