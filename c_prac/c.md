@@ -39,4 +39,4 @@ main ()
 
 wend
 
-tday
+tday13friday
