@@ -44,3 +44,7 @@ tday13friday sund
 mon
 
 tw
+
+w
+
+td
