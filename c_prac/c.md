@@ -49,4 +49,4 @@ w
 
 td
 
-fd 
+fd sat
