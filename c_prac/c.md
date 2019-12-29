@@ -43,23 +43,5 @@ tday13friday sund
 
 mon
 
-tw
 
-w
-
-td
-
-fd sat
-
-sund
-
-mond
-
-eve
-
-marrry
-
-cms
-
-ddd ot daydd
 
