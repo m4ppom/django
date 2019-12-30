@@ -41,7 +41,5 @@ wend
 
 tday13friday sund
 
-mon
-
 
 
