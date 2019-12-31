@@ -39,7 +39,4 @@ main ()
 
 wend
 
-tday13friday sund
-
-
 
