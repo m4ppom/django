@@ -45,4 +45,10 @@ do -- eclipse java
 
 web site for java and pythoin sql
 
+```
+https://playdata.cafe24.com/?doing_wp_cron=1578110986.2839839458465576171875
+```
+
+
+
 
