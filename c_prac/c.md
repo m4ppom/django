@@ -64,7 +64,9 @@ https://playdata.cafe24.com/?doing_wp_cron=1578110986.2839839458465576171875
 
 study for 
 통신구 탐방
-발표 ㅈ망
+발표 
+
+수료전날
 
 ```
 
