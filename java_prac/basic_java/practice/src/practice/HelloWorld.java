@@ -36,6 +36,19 @@ public class HelloWorld {
 		else {
 			
 		}
+		int value = 1;
+		
+		switch(value) {
+			case 1:
+				System.out.println("1");
+			case 3:
+				System.out.println("3");
+				break;
+			default :
+				System.out.println("다른숫자"); // 걸린거부터 나머지 다 출력해
+		}
+		// 멈추게하려면 break 써줘야함.
+		
 	}
 
 }
