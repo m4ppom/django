@@ -77,6 +77,6 @@ study for
 에자일 개발론
 빠른 주기로 요구사항 반영되기 쉬움 
 
-오픈소스 
+오픈소스 oppendosdaorcio
 ```
 
